@@ -6,73 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <style>
-    
-    </style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Strivazon</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/back.html">Admin</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <img src="logo.png" alt="logo" width="120px">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./backoffice.html">BackOffice</a>
+                </li>
+               
+              </ul>
+            </div>
+          </nav>
+    </div>
+    
     <div class="container">
-        <h1>Available Products</h1>
-        
-        <div class="container">
-          <h1 class="mt-5">Products</h1>
-          <hr />
-          <div class="card-columns"></div>
+        <h1 class='d-flex justify-content-center mt-5'>Available Products</h1>
+        <div class="row">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                </tbody>
+              </table>
         </div>
         
     </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <script>
-      
+        globalArray= []
         const fetchProducts = async () => {
             try {
                 const response = await fetch(
-            "https://striveschool-api.herokuapp.com/api/myObject/",
+                "https://striveschool-api.herokuapp.com/api/product/",
             {
               headers: {
-                Authorization:
-                //Token is valid for 14 days
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2MzU5NDgwNTcsImV4cCI6MTYzNzE1NzY1N30.qmdlrCU8u0m6iZk-6-n6Vl6J01JbhvKpSeJpF0qs-LQ",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2Mzg5NzIwMjIsImV4cCI6MTY0MDE4MTYyMn0.C95NcszmgYxUMX8JeddBCiLb2nO7_-vAXA5WHH9qI4E"
               },
             }
           );
                 if(response.ok){
-                    const result = await response.json();
-                    return result
+                    const events = await response.json()
+                    globalArray = events
+                    return events
                 }
                 else{
                     throw new Error ("Users not Fetched!!")
@@ -80,45 +75,35 @@
             } catch (error) {
                 throw error;
             }
-
-        }/*
-        const myObject = 
+        
+        } 
+      /*   const myObject = 
         {
             "name": "Mobile Phone",  //REQUIRED
             "description": "3310", //REQUIRED
             "brand": "nokia", //REQUIRED
             "imageUrl": "https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80", //REQUIRED
             "price": 100, //REQUIRED
-            }
-            */
-        /*
-        const postItems = async ()=>{
-            const fetchResponse = await fetch('https://striveschool-api.herokuapp.com/api/myObject/', {
-        method: 'POST',
-        body: JSON.stringify(myObject),
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization:
-                //Token is valid for 14 days
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2MzU5NDgwNTcsImV4cCI6MTYzNzE1NzY1N30.qmdlrCU8u0m6iZk-6-n6Vl6J01JbhvKpSeJpF0qs-LQ",
-                  'Accept': 'application/json'}
-})
-        const response = await fetchResponse.json()
-        return response
-        }
-        */
+            }  */
+        
+    
         //DOM manipulation to add the items in the table
-        /*
         const Row = (item)=>
         `<tr>
             <th scope="row">${item._id}</th>
             <td>${item.name}</td>
             <td>${item.brand}</td>
             <td>${item.price}</td>
+            <td><div class="card" style="width: 18rem;">
+                <img src="${item.imageUrl}" class="card-img-top" alt="...">
+                </div><td>
+            <td><a href='./details.html?_id=${item._id}'>Edit</td>
           </tr>`;
         //DOM manipulation to add the items in the table
-       const listProducts = async() =>{
+     
+        const listProducts = async() =>{
            const items = await fetchProducts();
+           console.log(items)
            const tbody = document.querySelector("tbody")
            items.forEach(item => {
                 tbody.innerHTML+=Row(item)
@@ -126,51 +111,10 @@
            });
        }
         
-        window.onload = ()=>{
-            fetchProducts()
+        window.onload =()=>{
             listProducts()
-            postItems()
         }
-   */
-   const BASE_URL = "https://striveschool-api.herokuapp.com/api/myObject";
-    const headers = new Headers({
-      "Content-Type": "application/json",
-      Authorization:
-        //Token is valid for 14 days
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2MzU5NDgwNTcsImV4cCI6MTYzNzE1NzY1N30.qmdlrCU8u0m6iZk-6-n6Vl6J01JbhvKpSeJpF0qs-LQ",
-                  'Accept': 'application/json',
-    });
-    const getProducts = (callback) => {
-      fetch(BASE_URL, { headers })
-        .then((res) => res.json())
-        .then((data) => callback(null, data))
-        .catch((error) => callback(error, null));
-    };
-    window.onload = function () {
-      getProducts((error, data) => {
-        console.log(data, error)
-        if (error) {
-          console.log({ error });
-        } else {
-          const content = document.querySelector(".card-columns");
-          content.innerHTML = "";
-          data.forEach((myObject) => {
-            content.innerHTML += `<div class="card">
-          <img src="${myObject.imageUrl}" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">${myObject.name}</h5>
-            <p class="card-text">
-               ${myObject.description}
-            </p>
-          </div>
-        </div>`;
-          });
-        }
-      });
-    };
-  
-
-
+   
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>

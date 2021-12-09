@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back Office</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <img src="logo.png" alt="logo" width="120px">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./backoffice.html">BackOffice</a>
+                </li>
+               
+              </ul>
+            </div>
+          </nav>
+    </div>
+    
+    <div class="container">
+        <hr/>   
+        <span id='error-span'></span>
+        <form onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label for="name">Product Name</label>
+              <input type="text" class="form-control" id="name" >
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" class="form-control" id="brand" >
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" class="form-control" id="imageUrl" >
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend" >
+                <span class="input-group-text">Price</span>
+               
+            </div>
+                <input id ='price' type="number" class="form-control" aria-label="Amount (to the nearest dollar)">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-info">Edit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+            
+        </form>
+    </div>
+    <script>
+      
+ /*       const postItems = async ()=>{
+            const fetchResponse = await fetch('https://striveschool-api.herokuapp.com/api/product/', {
+        method: 'POST',
+        body: JSON.stringify(handleInput()),
+        headers:{
+            'Content-Type': 'application/json',
+            Authorization:
+                //Token is valid for 14 days
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2MzU5NDgwNTcsImV4cCI6MTYzNzE1NzY1N30.qmdlrCU8u0m6iZk-6-n6Vl6J01JbhvKpSeJpF0qs-LQ",
+                  'Accept': 'application/json'}
+})
+        const response = await fetchResponse.json()
+        return response
+        } */
+
+        const productId = new URLSearchParams(location.search).get('_id')
+        const url = productId ? 'https://striveschool-api.herokuapp.com/api/product/' + productId : 'https://striveschool-api.herokuapp.com/api/product/'
+        const method = productId ? 'POST' : 'PUT'
+    
+        window.onload = async()=>{
+            console.log(productId)
+        const handleSubmit = async(event) =>{
+            event.preventDefault()
+        
+            //const url = 'https://striveschool-api.herokuapp.com/api/product/'
+
+            const inputValues = {
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            imageUrl: document.getElementById('imageUrl').value,
+            brand: document.getElementById('brand').value,
+            price: document.getElementById('price').value,
+            }
+
+            try {
+                const fetchResponse = await fetch(url, {
+                method: method, // method
+                body: JSON.stringify(inputValues),
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2Mzg5NzIwMjIsImV4cCI6MTY0MDE4MTYyMn0.C95NcszmgYxUMX8JeddBCiLb2nO7_-vAXA5WHH9qI4E",
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+                })
+                
+                if(fetchResponse.ok){
+                    const response = await fetchResponse.json()
+                    console.log(response)
+                    alert("Product saved successfully with an id of " + response._id)
+                }
+            } catch (error) {
+                const errorMessage = document.getElementById('error-span')
+                errorMessage.innerHTML = `<div class="alert alert-danger" role="alert">
+                                            ${error.message}
+                                            </div>`
+            }
+
+
+      
+        }
+
+    }
+       
+
+
+       
+   
+        //POST EVERYTHING THROUGH BACKOFFICE INPUTS AND GET THEM ON THE FRONTEND PAGE
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+</body>
+</html>
