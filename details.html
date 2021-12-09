@@ -75,35 +75,32 @@
         console.log(productId)
         const url =  'https://striveschool-api.herokuapp.com/api/product/' + productId 
         
-        const fetchingData = () =>{
-            const fetchData =  fetch(url,{
+        const fetchingData = async () =>{
+            const response =  await fetch(url,{
                 headers: {
                 "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2Mzg5NzIwMjIsImV4cCI6MTY0MDE4MTYyMn0.C95NcszmgYxUMX8JeddBCiLb2nO7_-vAXA5WHH9qI4E"
               },
             })
-            if(fetchData.ok){
-                const response =  fetch.json()
+            if(response.ok){
+                const productData =  await response.json()
                 console.log(response)
-                const {name, description, _id, brand, price} = response
+                const {name, description, _id, brand, price} = productData
             
-                const domElement = document.getElementById('#product-details')
+                const domElement = document.getElementById('product-details')
                     domElement.innerHTML = `
                     <h1 class="font-weight-bold">${name}</h1>
                     <p>${description}</p>
-                    <h6 class="bg-light py-3 pl-2">Server Details</h6>
+                    
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item pl-2"><strong >id:</strong> ${_id}</li>
-                        <li class="list-group-item pl-2"><strong >createdAt:</strong> ${brand}</li>
-                        <li class="list-group-item pl-2"><strong >updatedAt:</strong> ${price}</li>
+                        <li class="list-group-item pl-2"><strong >Brand:</strong> ${brand}</li>
+                        <li class="list-group-item pl-2"><strong >Price:</strong> ${price}</li>
                     </ul>
-                    <button class="btn btn-success mt-3" onclick="handleEditBtn()">EDIT EVENT</button>
+                    <button class="btn btn-success mt-3" onclick="handleEditBtn()">EDIT PRODUCT</button>
                     `
-                
             }
     
-        }
-        
-            
+        }          
 window.onload= () =>{
     fetchingData()
 }

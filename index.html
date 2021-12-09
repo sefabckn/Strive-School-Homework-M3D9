@@ -103,7 +103,6 @@
      
         const listProducts = async() =>{
            const items = await fetchProducts();
-           console.log(items)
            const tbody = document.querySelector("tbody")
            items.forEach(item => {
                 tbody.innerHTML+=Row(item)

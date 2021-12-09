@@ -10,7 +10,7 @@
 <body>
     <div class="container-fluid mb-2">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <img src="logo.png" alt="logo" width="120px">
+            <a class="navbar-brand" href="#">Strivazon</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,10 +28,10 @@
           </nav>
     </div>
     
-    <div class="container">
-        <hr/>   
+    <div class="container">  
         <span id='error-span'></span>
         <form onsubmit="handleSubmit(event)">
+            <h1 id='subtitle'></h1>
             <div class="form-group">
               <label for="name">Product Name</label>
               <input type="text" class="form-control" id="name" >
@@ -56,8 +56,6 @@
                 <input id ='price' type="number" class="form-control" aria-label="Amount (to the nearest dollar)">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
-            <button type="submit" class="btn btn-info">Edit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
             
         </form>
     </div>
@@ -78,15 +76,26 @@
         return response
         } */
 
-        const productId = new URLSearchParams(location.search).get('_id')
-        const url = productId ? 'https://striveschool-api.herokuapp.com/api/product/' + productId : 'https://striveschool-api.herokuapp.com/api/product/'
-        const method = productId ? 'POST' : 'PUT'
-    
-        window.onload = async()=>{
-            console.log(productId)
-        const handleSubmit = async(event) =>{
+        const productId = new URLSearchParams(location.search).get("_id")
+        const url = productId ? "https://striveschool-api.herokuapp.com/api/product/" + productId : "https://striveschool-api.herokuapp.com/api/product/"
+        const method = productId ? "PUT" : "POST"
+
+        window.onload = async() =>{
+
+            const submitBtn = document.querySelector("button[type='submit']")
+            try {
+                const response = fetch(url)
+                if(response.ok){
+                    const productDetails = response.json()
+                    console.log(productDetails)
+                }
+            } catch (error) {
+                
+            }
+        }
+
+       const handleSubmit = async(event) =>{
             event.preventDefault()
-        
             //const url = 'https://striveschool-api.herokuapp.com/api/product/'
 
             const inputValues = {
@@ -99,7 +108,7 @@
 
             try {
                 const fetchResponse = await fetch(url, {
-                method: method, // method
+                method: 'POST',
                 body: JSON.stringify(inputValues),
                 headers: {
                     "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOTU0M2FhY2FhMjAwMTU1MmExOWYiLCJpYXQiOjE2Mzg5NzIwMjIsImV4cCI6MTY0MDE4MTYyMn0.C95NcszmgYxUMX8JeddBCiLb2nO7_-vAXA5WHH9qI4E",
@@ -120,15 +129,7 @@
                                             </div>`
             }
 
-
-      
-        }
-
-    }
-       
-
-
-       
+       }
    
         //POST EVERYTHING THROUGH BACKOFFICE INPUTS AND GET THEM ON THE FRONTEND PAGE
 
